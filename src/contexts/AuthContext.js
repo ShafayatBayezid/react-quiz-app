@@ -11,14 +11,13 @@ import "../firebase";
 
 const AuthContext = React.createContext();
 
-// a custom hook who took useContext's value to pass anywhere
 export function useAuth() {
   return useContext(AuthContext);
 }
 
 export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState(false);
+  const [currentUser, setCurrentUser] = useState();
 
   useEffect(() => {
     const auth = getAuth();
@@ -26,12 +25,11 @@ export function AuthProvider({ children }) {
       setCurrentUser(user);
       setLoading(false);
     });
-      
-      // to clean up this listener from multi re-rendaring
-      return unsubscribe; 
+
+    return unsubscribe;
   }, []);
 
-  //signup function
+  // signup function
   async function signup(email, password, username) {
     const auth = getAuth();
     await createUserWithEmailAndPassword(auth, email, password);
@@ -41,24 +39,21 @@ export function AuthProvider({ children }) {
       displayName: username,
     });
 
-    // setting our current user from firebase
     const user = auth.currentUser;
     setCurrentUser({
       ...user,
     });
   }
 
-  //login function
+  // login function
   function login(email, password) {
     const auth = getAuth();
-
     return signInWithEmailAndPassword(auth, email, password);
   }
 
   // logout function
   function logout() {
     const auth = getAuth();
-
     return signOut(auth);
   }
 
@@ -69,8 +64,9 @@ export function AuthProvider({ children }) {
     logout,
   };
 
-  return;
-  <AuthContext.Provider value={value}>
-    {!loading && children}
-  </AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 }
