@@ -13,6 +13,7 @@ export default function Videos() {
         <InfiniteScroll
           dataLength={videos.length}
           hasMore={hasMore}
+          loader={<h1>Loading...</h1>}
           next={() => {
             setPage(page + 8);
           }}
@@ -20,7 +21,7 @@ export default function Videos() {
           {/* if there is no video then user cann't enter to quiz sections (video.noq>0) */}
           {videos.map((video) =>
             video.noq > 0 ? (
-              <NavLink to="/quiz" key={video.youtubeID}>
+              <NavLink to={`/quiz/${video.youtubeID}`} key={video.youtubeID}>
                 <Video
                   title={video.title}
                   id={video.youtubeID}
@@ -28,15 +29,20 @@ export default function Videos() {
                 />
               </NavLink>
             ) : (
-              <Video title={video.title} id={video.youtubeID} noq={video.noq} />
+              <Video
+                key={video.youtubeID}
+                title={video.title}
+                id={video.youtubeID}
+                noq={video.noq}
+              />
             )
           )}
         </InfiniteScroll>
       )}
 
       {!loading && videos.length === 0 && <div>No data found</div>}
-      {!error && videos.length === 0 && <div>There was an error!</div>}
-      {loading && <div>Loading...!</div>}
+      {error && videos.length === 0 && <div>There was an error!</div>}
+      {loading && <h1>Loading...!</h1>}
     </div>
   );
 }

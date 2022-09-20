@@ -78,6 +78,10 @@ h4 {
   gap: 20px;
   row-gap: 20px;
 }
+.infinite-scroll-component h1{
+  text-align: center;
+  display: block;
+}
 
 @media only screen and (max-width: 600px) {
   .infinite-scroll-component {
