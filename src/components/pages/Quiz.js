@@ -65,7 +65,7 @@ export default function Quiz() {
   //handle whene user clicked the prev button to get prev question
   function prevQuestions() {
     if (currentQuestion >= 1 && currentQuestion <= questions.length) {
-      setCurrentQuestion((prevCurrent) => prevCurrent + 1);
+      setCurrentQuestion((prevCurrent) => prevCurrent - 1);
     }
   }
 
